@@ -1,6 +1,8 @@
 # get replacement level player by position
 import pandas as pd
 import numpy as np
+from scipy.stats import norm
+
 
 # league rules!
 numberOfTeams = 10
@@ -20,6 +22,12 @@ individuals = pd.read_csv('data/individuals.csv')
 preds_copy = pd.read_csv('data/preds_copy.csv')
 
 ntrees = 500
+
+
+# your team
+draftedOverall = []
+
+yourTeam = []
 
 # Filtering data based on conditions
 replacement_rb = individuals[(individuals['pos'] == 'RB') & (
@@ -251,9 +259,3 @@ def draft_optimize(individuals=individuals, yourTeam=yourTeam, draftedOverall=dr
     secondDataframe = pd.DataFrame(second_rows)
 
     return secondDataframe
-
-
-# your team
-draftedOverall = []
-
-yourTeam = []
