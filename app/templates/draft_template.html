@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Football Draft Optimizer</title>
+  </head>
+  <body>
+    <h2>Available Players</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Predicted Points</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for player in players %}
+        <tr>
+          <td>{{ player.name }}</td>
+          <td>{{ player.position }}</td>
+          <td>{{ player.predicted_points }}</td>
+          <td>
+            <button onclick="pickPlayer('{{ player.name }}')">Pick</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script>
+      function pickPlayer(name) {
+        // You can send an AJAX request or similar here to mark the player as picked.
+        alert(name + " has been picked!");
+      }
+    </script>
+  </body>
+</html>
