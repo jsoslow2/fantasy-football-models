@@ -5,23 +5,19 @@ from draft_optimizer import draft_optimize
 @app.route('/')
 @app.route('/draft', methods=['GET', 'POST'])
 def draft():
-    # Retrieve session data
-    draftedOverall = session.get('draftedOverall', [])
-    yourTeam = session.get('yourTeam', [])
-
-    # Call your draft_optimize function
-    players_df = draft_optimize(yourTeam=yourTeam, draftedOverall=draftedOverall)
+    # Ensure the session variables exist
+    if 'yourTeam' not in session:
+        session['yourTeam'] = []
+    if 'draftedOverall' not in session:
+        session['draftedOverall'] = []
+        
+    # Call the optimizer
+    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
     
-    # Convert DataFrame to list of dictionaries for rendering in template
-    players = players_df.to_dict(orient='records')
+    return render_template('draft.html', players=optimized_players)
 
-    players = [
-        {"name": "Player 1", "position": "RB", "predicted_points": 120},
-        {"name": "Player 2", "position": "WR", "predicted_points": 100},
-        # ... add more players as needed
-    ]
 
-    return render_template('draft.html', players=players)
+
 
 @app.route('/pick_player/<player_name>', methods=['POST'])
 def pick_player(player_name):

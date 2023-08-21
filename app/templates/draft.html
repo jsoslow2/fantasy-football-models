@@ -10,16 +10,18 @@
         <tr>
           <th>Name</th>
           <th>Position</th>
-          <th>Predicted Points</th>
+          <th>Value Over Next Round</th>
+          <th>ADP</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        {% for player in players %}
+        {% for player in players.itertuples() %}
         <tr>
           <td>{{ player.name }}</td>
-          <td>{{ player.position }}</td>
-          <td>{{ player.predicted_points }}</td>
+          <td>{{ player.pos }}</td>
+          <td>{{ player.valueOverNextRound }}</td>
+          <td>{{ player.ADP }}</td>
           <td>
             <button onclick="pickPlayer('{{ player.name }}')">Pick</button>
           </td>
