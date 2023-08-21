@@ -63,6 +63,9 @@ for tree in rf.estimators_:
 tree_predictions_df = pd.DataFrame(tree_predictions).transpose()
 tree_predictions_df.columns = [f"Tree_{i+1}" for i in range(rf.n_estimators)]
 
+#get preds
+preds = rf.predict(test_x)
+
 #include more details in pred dataframe
 tree_predictions_df['name'] = names
 tree_predictions_df['preds'] = preds
@@ -85,6 +88,5 @@ preds_copy['pos'] = positions
 preds_copy['preds'] = preds
 preds_copy['adp'] = preds_copy['rank'] * 1.2
 preds_copy['adp_sd'] = preds_copy['rank'] * .5 + 1
-
 
 preds_copy = preds_copy[['name', 'pos', 'rank', 'PAR', 'preds', 'adp', 'adp_sd']]
