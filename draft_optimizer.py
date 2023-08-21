@@ -45,7 +45,7 @@ def roundUp(x, to=numberOfTeams):
     return to * (x // to + (x % to > 0))
 
 
-def draft_optimize(individuals=individuals, yourTeam=yourTeam, draftedOverall=draftedOverall, preds_copy=preds_copy):
+def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=preds_copy):
     # Assuming necessary data is already loaded: individuals, preds_copy, draftedOverall, yourTeam, etc.
     # ... [Your data loading code here]
 
