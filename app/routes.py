@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, session, redirect, url_for, request
+from flask import render_template, session, redirect, url_for, request, jsonify
 from draft_optimizer import draft_optimize
 
 @app.route('/')
@@ -32,4 +32,10 @@ def select_player():
 
     return "OK", 200
 
-# Additional routes to handle other user actions like drafting players by others can be added similarly.
+
+@app.route('/get_optimized_players', methods=['GET'])
+def get_optimized_players():
+    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
+    # Convert the DataFrame to a list of dictionaries for JSON serialization
+    data = optimized_players.sort_values(by='valueOverNextRound', ascending=False).to_dict(orient='records')
+    return jsonify(data)

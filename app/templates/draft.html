@@ -19,6 +19,7 @@
     </div>
 
     <div style="float: right; width: 65%">
+      <button onclick="optimizePlayers()">Optimize</button>
       <h2>Available Players</h2>
       <table border="1">
         <thead>
@@ -71,6 +72,44 @@
             console.log("player drafted");
           }
         });
+      }
+
+      function optimizePlayers() {
+        // Make an AJAX request
+        fetch("/get_optimized_players")
+          .then((response) => response.json())
+          .then((data) => {
+            // Clear the existing table rows
+            let tableBody = document.querySelector("tbody");
+            tableBody.innerHTML = "";
+
+            // Populate the table with the new data
+            data.forEach((player) => {
+              let row = document.createElement("tr");
+              row.setAttribute(
+                "id",
+                "player-" + player.name.replace(/\s+/g, "-")
+              );
+
+              // Add player data to the row
+              ["name", "pos", "valueOverNextRound", "ADP"].forEach((key) => {
+                let cell = document.createElement("td");
+                cell.textContent = player[key];
+                row.appendChild(cell);
+              });
+
+              // Add the "Select" button
+              let cell = document.createElement("td");
+              let button = document.createElement("button");
+              button.textContent = "Select";
+              button.setAttribute("onclick", `selectPlayer('${player.name}')`);
+              cell.appendChild(button);
+              row.appendChild(cell);
+
+              // Append the row to the table
+              tableBody.appendChild(row);
+            });
+          });
       }
     </script>
   </body>
