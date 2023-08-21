@@ -4,36 +4,73 @@
     <title>Football Draft Optimizer</title>
   </head>
   <body>
-    <h2>Available Players</h2>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Value Over Next Round</th>
-          <th>ADP</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for player in players.itertuples() %}
-        <tr>
-          <td>{{ player.name }}</td>
-          <td>{{ player.pos }}</td>
-          <td>{{ player.valueOverNextRound }}</td>
-          <td>{{ player.ADP }}</td>
-          <td>
-            <button onclick="pickPlayer('{{ player.name }}')">Pick</button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div
+      style="
+        float: left;
+        width: 30%;
+        border-right: 1px solid black;
+        padding-right: 10px;
+      "
+    >
+      <h2>Drafted Players</h2>
+      <ul id="draftedPlayersList">
+        <!-- This list will be populated using JavaScript -->
+      </ul>
+    </div>
+
+    <div style="float: right; width: 65%">
+      <h2>Available Players</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Value Over Next Round</th>
+            <th>ADP</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for player in players.itertuples() %}
+          <tr id="player-{{ player.name.replace(' ', '-') }}">
+            <td>{{ player.name }}</td>
+            <td>{{ player.pos }}</td>
+            <td>{{ player.valueOverNextRound }}</td>
+            <td>{{ player.ADP }}</td>
+            <td>
+              <button onclick="selectPlayer('{{ player.name }}')">
+                Select
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
     <script>
-      function pickPlayer(name) {
-        // You can send an AJAX request or similar here to mark the player as picked.
-        alert(name + " has been picked!");
+      function selectPlayer(name) {
+        // Remove the player row from the available players table
+        let playerNameId = "player-" + name.replace(/\s+/g, "-");
+        let playerElement = document.getElementById(playerNameId);
+        if (playerElement) {
+          playerElement.remove();
+        }
+
+        // Add player to the drafted list
+        let list = document.getElementById("draftedPlayersList");
+        let item = document.createElement("li");
+        item.appendChild(document.createTextNode(name));
+        list.appendChild(item);
+
+        // Send an AJAX request to update the server-side data
+        fetch(`/select_player?name=${name}`, {
+          method: "POST",
+        }).then((response) => {
+          if (response.ok) {
+            console.log("player drafted");
+          }
+        });
       }
     </script>
   </body>

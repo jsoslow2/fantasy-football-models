@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from draft_optimizer import draft_optimize
 
 @app.route('/')
@@ -13,17 +13,23 @@ def draft():
         
     # Call the optimizer
     optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
-    
-    return render_template('draft.html', players=optimized_players)
+
+    return render_template('draft.html', players=optimized_players.sort_values(by='valueOverNextRound', ascending = False))
 
 
 
+@app.route('/select_player', methods=['POST'])
+def select_player():
+    player_name = request.args.get('name')
+    print(f"Selecting player: {player_name}")  # Debug print
+    if player_name:
+        # Add the player to the draftedOverall list
+        drafted = session.get('draftedOverall', [])
+        drafted.append(player_name)
+        session['draftedOverall'] = drafted
 
-@app.route('/pick_player/<player_name>', methods=['POST'])
-def pick_player(player_name):
-    yourTeam = session.get('yourTeam', [])
-    yourTeam.append(player_name)
-    session['yourTeam'] = yourTeam
-    return redirect(url_for('draft'))
+    print(session['draftedOverall'])
+
+    return "OK", 200
 
 # Additional routes to handle other user actions like drafting players by others can be added similarly.
