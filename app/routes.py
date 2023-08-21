@@ -33,9 +33,18 @@ def select_player():
     return "OK", 200
 
 
+#run every time a player OPTIMIZES
 @app.route('/get_optimized_players', methods=['GET'])
 def get_optimized_players():
     optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
     # Convert the DataFrame to a list of dictionaries for JSON serialization
     data = optimized_players.sort_values(by='valueOverNextRound', ascending=False).to_dict(orient='records')
     return jsonify(data)
+
+
+
+#run to clear the session
+@app.route('/reset_session', methods=['POST'])
+def reset_session():
+    session.clear()
+    return jsonify(status="success")

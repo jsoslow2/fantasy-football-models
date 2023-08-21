@@ -48,6 +48,7 @@
         </tbody>
       </table>
     </div>
+    <button onclick="resetSession()">Reset Session</button>
 
     <script>
       function selectPlayer(name) {
@@ -109,6 +110,20 @@
               // Append the row to the table
               tableBody.appendChild(row);
             });
+          });
+      }
+
+      function resetSession() {
+        fetch("/reset_session", {
+          method: "POST",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              window.location.reload(); // Refresh the page
+            } else {
+              alert("Failed to reset session. Please try again.");
+            }
           });
       }
     </script>
