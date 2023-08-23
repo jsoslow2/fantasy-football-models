@@ -257,5 +257,8 @@ def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=
         second_rows.append(newRow)
 
     secondDataframe = pd.DataFrame(second_rows)
+    secondDataframe['total_pt_gains'] = round(secondDataframe['total_pt_gains'], 1)
+    secondDataframe['valueOverNextRound'] = round(secondDataframe['valueOverNextRound'], 1)
+    secondDataframe['ADP'] = round(secondDataframe['ADP'], 1)
 
     return secondDataframe

@@ -27,6 +27,7 @@
             <th>Name</th>
             <th>Position</th>
             <th>Value Over Next Round</th>
+            <th>Total Point Gains</th>
             <th>ADP</th>
             <th>Actions</th>
           </tr>
@@ -37,6 +38,7 @@
             <td>{{ player.name }}</td>
             <td>{{ player.pos }}</td>
             <td>{{ player.valueOverNextRound }}</td>
+            <td>{{ player.total_pt_gains }}</td>
             <td>{{ player.ADP }}</td>
             <td>
               <button onclick="selectPlayer('{{ player.name }}')">
@@ -93,7 +95,13 @@
               );
 
               // Add player data to the row
-              ["name", "pos", "valueOverNextRound", "ADP"].forEach((key) => {
+              [
+                "name",
+                "pos",
+                "valueOverNextRound",
+                "total_pt_gains",
+                "ADP",
+              ].forEach((key) => {
                 let cell = document.createElement("td");
                 cell.textContent = player[key];
                 row.appendChild(cell);
