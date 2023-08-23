@@ -42,6 +42,19 @@ def get_optimized_players():
     return jsonify(data)
 
 
+@app.route('/add_to_your_team', methods=['POST'])
+def add_to_your_team():
+    player_name = request.args.get('name')
+    print(f"Adding player to Your Team: {player_name}")  # Debug print
+    if player_name:
+        # Add the player to the yourTeam list
+        session['yourTeam'].append(player_name)
+
+    print(session['yourTeam'])
+
+    return "OK", 200
+
+
 
 #run to clear the session
 @app.route('/reset_session', methods=['POST'])

@@ -12,6 +12,10 @@
         padding-right: 10px;
       "
     >
+      <h2>Your Team</h2>
+      <ul id="yourTeamList">
+        <!-- This list will be populated using JavaScript -->
+      </ul>
       <h2>Drafted Players</h2>
       <ul id="draftedPlayersList">
         <!-- This list will be populated using JavaScript -->
@@ -41,8 +45,11 @@
             <td>{{ player.total_pt_gains }}</td>
             <td>{{ player.ADP }}</td>
             <td>
+              <button onclick="addToYourTeam('{{ player.name }}')">
+                Add to Your Team
+              </button>
               <button onclick="selectPlayer('{{ player.name }}')">
-                Select
+                Player Selected
               </button>
             </td>
           </tr>
@@ -133,6 +140,27 @@
               alert("Failed to reset session. Please try again.");
             }
           });
+      }
+
+      function addToYourTeam(name) {
+        // Add player to your team list
+        let list = document.getElementById("yourTeamList");
+        let item = document.createElement("li");
+        item.appendChild(document.createTextNode(name));
+        list.appendChild(item);
+        console.log("got here");
+
+        // Treat the player as selected too
+        selectPlayer(name); // This will remove the player from the table and add them to the drafted list
+
+        // Send an AJAX request to update the server-side data for your team
+        fetch(`/add_to_your_team?name=${name}`, {
+          method: "POST",
+        }).then((response) => {
+          if (response.ok) {
+            console.log("player added to your team");
+          }
+        });
       }
     </script>
   </body>
