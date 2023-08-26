@@ -7,22 +7,18 @@
     <div
       style="
         float: left;
-        width: 30%;
+        width: 20%;
         border-right: 1px solid black;
         padding-right: 10px;
       "
     >
-      <h2>Your Team</h2>
-      <ul id="yourTeamList">
-        <!-- This list will be populated using JavaScript -->
-      </ul>
       <h2>Drafted Players</h2>
       <ul id="draftedPlayersList">
         <!-- This list will be populated using JavaScript -->
       </ul>
     </div>
 
-    <div style="float: right; width: 65%">
+    <div style="float: left; width: 50%; padding-right: 10px">
       <button onclick="optimizePlayers()">Optimize</button>
       <h2>Available Players</h2>
       <table border="1">
@@ -56,6 +52,12 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div style="float: right; width: 20%">
+      <h2>Your Team</h2>
+      <ul id="yourTeamList">
+        <!-- This list will be populated similarly to the Drafted Players list -->
+      </ul>
     </div>
     <button onclick="resetSession()">Reset Session</button>
 
