@@ -1,0 +1,62 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #444;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px; /* space below the table */
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px 15px; /* Adjusting the padding for table cells */
+  vertical-align: middle; /* Vertical centering */
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+button {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  padding: 5px 10px; /* Adding some padding to the button */
+}
+
+button:hover {
+  background-color: #887efb;
+  color: white; /* Changing text color on hover */
+}
+
+/* Adding a right border to the selected players section */
+div[style*="float: left; width: 20%"] {
+  border-right: 2px solid black;
+}
+
+#resetButton {
+  position: absolute; /* This will position the button with respect to its nearest positioned ancestor */
+  top: 10px; /* Adjust as needed for exact positioning */
+  left: 10px; /* Adjust as needed for exact positioning */
+  padding: 5px 10px;
+}

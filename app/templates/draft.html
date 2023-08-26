@@ -2,8 +2,14 @@
 <html>
   <head>
     <title>Football Draft Optimizer</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
   </head>
   <body>
+    <button id="resetButton" onclick="resetSession()">Reset Session</button>
+
     <div
       style="
         float: left;
@@ -41,11 +47,8 @@
             <td>{{ player.total_pt_gains }}</td>
             <td>{{ player.ADP }}</td>
             <td>
-              <button onclick="addToYourTeam('{{ player.name }}')">
-                Add to Your Team
-              </button>
               <button onclick="selectPlayer('{{ player.name }}')">
-                Player Selected
+                Selected
               </button>
             </td>
           </tr>
@@ -59,7 +62,6 @@
         <!-- This list will be populated similarly to the Drafted Players list -->
       </ul>
     </div>
-    <button onclick="resetSession()">Reset Session</button>
 
     <script>
       function selectPlayer(name) {
@@ -70,10 +72,15 @@
           playerElement.remove();
         }
 
-        // Add player to the drafted list
+        // Add player to the drafted list and provide an "Add to Team" button
         let list = document.getElementById("draftedPlayersList");
         let item = document.createElement("li");
-        item.appendChild(document.createTextNode(name));
+        item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
+        item.innerHTML =
+          name +
+          " <button onclick='addToYourTeam(\"" +
+          name +
+          "\")'>Add to Team</button>";
         list.appendChild(item);
 
         // Send an AJAX request to update the server-side data
@@ -119,7 +126,7 @@
               // Add the "Select" button
               let cell = document.createElement("td");
               let button = document.createElement("button");
-              button.textContent = "Select";
+              button.textContent = "Selected";
               button.setAttribute("onclick", `selectPlayer('${player.name}')`);
               cell.appendChild(button);
               row.appendChild(cell);
@@ -145,24 +152,21 @@
       }
 
       function addToYourTeam(name) {
-        // Add player to your team list
+        console.log(name);
+
+        // Add player to the 'Your Team' list
         let list = document.getElementById("yourTeamList");
         let item = document.createElement("li");
         item.appendChild(document.createTextNode(name));
         list.appendChild(item);
-        console.log("got here");
 
-        // Treat the player as selected too
-        selectPlayer(name); // This will remove the player from the table and add them to the drafted list
+        // Change the button for the player in the drafted list to a checkmark and disable it
+        let btnId = "drafted-" + name.replace(/\s+/g, "-");
+        let buttonElement = document.querySelector(`#${btnId} button`);
+        buttonElement.innerHTML = "&#10004;"; // This is a checkmark symbol
+        buttonElement.disabled = true;
 
-        // Send an AJAX request to update the server-side data for your team
-        fetch(`/add_to_your_team?name=${name}`, {
-          method: "POST",
-        }).then((response) => {
-          if (response.ok) {
-            console.log("player added to your team");
-          }
-        });
+        // [Optional] Send an AJAX request if you wish to update server-side data
       }
     </script>
   </body>
