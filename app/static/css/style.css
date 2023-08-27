@@ -83,12 +83,6 @@ button:hover {
   background-color: #f5f5f5; /* or your preferred lighter color */
 }
 
-.reset-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-}
-
 #draftedPlayersList {
   list-style-type: decimal; /* Show numbers instead of bullets */
   padding-left: 0; /* Remove default padding */
@@ -111,4 +105,10 @@ button:hover {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 16px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* vertically center align items if they have different heights */
 }
