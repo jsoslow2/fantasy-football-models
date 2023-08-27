@@ -10,9 +10,13 @@ def draft():
         session['yourTeam'] = []
     if 'draftedOverall' not in session:
         session['draftedOverall'] = []
+    if 'ppr' not in session:
+        session['ppr'] = 1
+    if 'teams' not in session:
+        session['teams'] = 10
         
     # Call the optimizer
-    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
+    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'], session['ppr'], session['teams'])
 
     return render_template('draft.html', players=optimized_players.sort_values(by='valueOverNextRound', ascending = False))
 
@@ -36,9 +40,12 @@ def select_player():
 #run every time a player OPTIMIZES
 @app.route('/get_optimized_players', methods=['GET'])
 def get_optimized_players():
-    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'])
+    optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'], session['ppr'], session['teams'])
     # Convert the DataFrame to a list of dictionaries for JSON serialization
     data = optimized_players.sort_values(by='valueOverNextRound', ascending=False).to_dict(orient='records')
+
+    print(session['ppr'])
+    print(session['teams'])
     return jsonify(data)
 
 
@@ -65,8 +72,10 @@ def reset_session():
 
 @app.route('/save_settings', methods=['POST'])
 def save_settings():
-    ppr = request.form.get('ppr', 1)  # default to 1 if not provided
-    teams = request.form.get('teams', 10)  # default to 10 if not provided
+    data = request.get_json()
+    ppr = data.get('ppr', 1)  # default to 1 if not provided
+    teams = int(data.get('teams', 10))  # default to 10 if not provided
+
     session['ppr'] = ppr
     session['teams'] = teams
     return jsonify(success=True)

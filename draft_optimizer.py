@@ -45,9 +45,26 @@ def roundUp(x, to=numberOfTeams):
     return to * (x // to + (x % to > 0))
 
 
-def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=preds_copy):
+def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
     # Assuming necessary data is already loaded: individuals, preds_copy, draftedOverall, yourTeam, etc.
     # ... [Your data loading code here]
+
+    print(ppr)
+    print(num_teams)
+    print('in optimize')
+
+    if ppr == '0':
+        individuals_path = "data/individuals_0_PPR.csv"
+        preds_copy_path = "data/preds_copy_0_PPR.csv"
+    elif ppr == '0.5':
+        individuals_path = "data/individuals_.5_PPR.csv"
+        preds_copy_path = "data/preds_copy_.5_PPR.csv"
+    else:
+        individuals_path = "data/individuals.csv"
+        preds_copy_path = "data/preds_copy.csv"
+
+    individuals = pd.read_csv(individuals_path)
+    preds_copy = pd.read_csv(preds_copy_path)
 
     # Initialize DataFrames and lists
     createdDataframe = pd.DataFrame()
@@ -148,7 +165,7 @@ def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=
 
         # Finding pick number, your next pick, and the likelihood of a player staying on board
         pickNumber = len(draftedOverall) + 1
-        ceiling = roundUp(pickNumber, numberOfTeams)
+        ceiling = roundUp(pickNumber, num_teams)
         leftTillEndOfRound = ceiling - pickNumber
         nextPick = ceiling + leftTillEndOfRound + 1
 
@@ -157,7 +174,7 @@ def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=
             1 - norm.cdf(nextPick, player['adp'], player['adp_sd']), 2)
 
         # For the round after the likelihood
-        ceiling = roundUp(nextPick, numberOfTeams)
+        ceiling = roundUp(nextPick, num_teams)
         leftTillEndOfRound = ceiling - nextPick
         pickAfter = ceiling + leftTillEndOfRound + 1
 
@@ -165,7 +182,7 @@ def draft_optimize(yourTeam, draftedOverall,individuals=individuals, preds_copy=
             norm.cdf(pickAfter, player['adp'], player['adp_sd'])
 
         # For the round after...
-        ceiling = roundUp(pickAfter, numberOfTeams)
+        ceiling = roundUp(pickAfter, num_teams)
         leftTillEndOfRound = ceiling - pickAfter
         pickEvenAfter = ceiling + leftTillEndOfRound + 1
 

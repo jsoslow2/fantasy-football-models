@@ -38,9 +38,23 @@
         <h2>Setup</h2>
         <form action="#">
           <label for="ppr">PPR:</label><br />
-          <input type="text" id="ppr" name="ppr" value="1" /><br />
+          <select class="form-control" id="ppr" name="ppr">
+            <option value="0">0</option>
+            <option value="0.5">0.5</option>
+            <option value="1" selected>1</option>
+          </select>
+          <br />
           <label for="teams">Number of Teams:</label><br />
-          <input type="text" id="teams" name="teams" value="10" /><br /><br />
+          <input
+            type="number"
+            class="form-control"
+            id="teams"
+            name="teams"
+            min="6"
+            max="20"
+            value="10"
+          />
+          <br />
           <input type="submit" id="submitButton" value="Submit" />
         </form>
       </div>
