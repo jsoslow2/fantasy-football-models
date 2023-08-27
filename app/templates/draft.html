@@ -243,6 +243,7 @@
               if (data.success) {
                 // Close the modal if data was saved successfully
                 modal.style.display = "none";
+                optimizePlayers();
               } else {
                 alert("Failed to save settings. Please try again.");
               }
