@@ -133,3 +133,8 @@ button:hover {
 .optimize-button:hover {
   background-color: #283593; /* Slightly darker color on hover */
 }
+
+#yourTeamList {
+  list-style-type: none; /* Removes the bullet points */
+  padding-left: 0; /* Removes the default padding */
+}
