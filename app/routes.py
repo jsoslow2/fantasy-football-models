@@ -61,3 +61,12 @@ def add_to_your_team():
 def reset_session():
     session.clear()
     return jsonify(status="success")
+
+
+@app.route('/save_settings', methods=['POST'])
+def save_settings():
+    ppr = request.form.get('ppr', 1)  # default to 1 if not provided
+    teams = request.form.get('teams', 10)  # default to 10 if not provided
+    session['ppr'] = ppr
+    session['teams'] = teams
+    return jsonify(success=True)

@@ -20,8 +20,32 @@
       charset="utf8"
       src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"
     ></script>
+
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body>
+    <!-- The Modal -->
+    <!-- Modal Backdrop/Overlay -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Setup</h2>
+        <form action="#">
+          <label for="ppr">PPR:</label><br />
+          <input type="text" id="ppr" name="ppr" value="1" /><br />
+          <label for="teams">Number of Teams:</label><br />
+          <input type="text" id="teams" name="teams" value="10" /><br /><br />
+          <input type="submit" id="submitButton" value="Submit" />
+        </form>
+      </div>
+    </div>
+
     <div class="container">
       <!-- Left Side - Drafted Players -->
       <div class="side drafted-players">
@@ -177,6 +201,45 @@
         // [Optional] Send an AJAX request if you wish to update server-side data
       }
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let modal = document.getElementById("myModal");
+        let btn = document.getElementById("submitButton");
+        let pprInput = document.getElementById("ppr");
+        let teamsInput = document.getElementById("teams");
+
+        // Show the modal when the page loads
+        modal.style.display = "block";
+
+        btn.onclick = function (event) {
+          event.preventDefault();
+
+          let pprValue = pprInput.value;
+          let teamsValue = teamsInput.value;
+
+          fetch("/save_settings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ppr: pprValue, teams: teamsValue }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                // Close the modal if data was saved successfully
+                modal.style.display = "none";
+              } else {
+                alert("Failed to save settings. Please try again.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        };
+      });
+    </script>
+
     <script>
       $(document).ready(function () {
         $("table").DataTable({
