@@ -112,3 +112,24 @@ button:hover {
   justify-content: space-between;
   align-items: center; /* vertically center align items if they have different heights */
 }
+
+.optimize-button {
+  background-color: #3f51b5; /* Example color, choose what stands out */
+  color: #fff; /* White text */
+  padding: 15px 30px; /* More padding to make it larger */
+  border: none;
+  border-radius: 5px; /* Rounded corners */
+  font-size: 18px; /* Larger font */
+  cursor: pointer;
+  margin-top: 20px; /* Some space between the button and the table or anything above */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  margin: 10px auto 20px; /* 10px top margin, centered horizontally, 20px bottom margin */
+  width: 50%; /* Width is set to 50% of its container */
+  padding: 10px 20px; /* Increased padding for a larger, more prominent button */
+  display: block; /* To allow for margins to center it */
+}
+
+.optimize-button:hover {
+  background-color: #283593; /* Slightly darker color on hover */
+}
