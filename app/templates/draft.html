@@ -6,6 +6,20 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"
+    />
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"
+    ></script>
   </head>
   <body>
     <div class="container">
@@ -31,7 +45,6 @@
               <th>Position</th>
               <th>Value Over Next Round</th>
               <th>Total Point Gains</th>
-              <th>ADP</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -42,7 +55,6 @@
               <td>{{ player.pos }}</td>
               <td>{{ player.valueOverNextRound }}</td>
               <td>{{ player.total_pt_gains }}</td>
-              <td>{{ player.ADP }}</td>
               <td>
                 <button onclick="selectPlayer('{{ player.name }}')">
                   Selected
@@ -111,17 +123,13 @@
               );
 
               // Add player data to the row
-              [
-                "name",
-                "pos",
-                "valueOverNextRound",
-                "total_pt_gains",
-                "ADP",
-              ].forEach((key) => {
-                let cell = document.createElement("td");
-                cell.textContent = player[key];
-                row.appendChild(cell);
-              });
+              ["name", "pos", "valueOverNextRound", "total_pt_gains"].forEach(
+                (key) => {
+                  let cell = document.createElement("td");
+                  cell.textContent = player[key];
+                  row.appendChild(cell);
+                }
+              );
 
               // Add the "Select" button
               let cell = document.createElement("td");
@@ -168,6 +176,14 @@
 
         // [Optional] Send an AJAX request if you wish to update server-side data
       }
+    </script>
+    <script>
+      $(document).ready(function () {
+        $("table").DataTable({
+          order: [[2, "desc"]],
+          pageLength: 100,
+        });
+      });
     </script>
   </body>
 </html>

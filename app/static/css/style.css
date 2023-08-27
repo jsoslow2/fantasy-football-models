@@ -138,3 +138,18 @@ button:hover {
   list-style-type: none; /* Removes the bullet points */
   padding-left: 0; /* Removes the default padding */
 }
+
+table thead th {
+  background-color: #212121; /* Green background */
+  color: #e0e0e0; /* White text */
+  text-align: center; /* Centered text */
+  padding: 10px; /* Some padding */
+}
+
+table tr:nth-child(even) {
+  background-color: #e0e0e0 !important;
+}
+
+table tr:hover {
+  background-color: #bdbdbd !important;
+}
