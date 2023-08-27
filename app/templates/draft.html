@@ -8,59 +8,55 @@
     />
   </head>
   <body>
-    <button id="resetButton" onclick="resetSession()">Reset Session</button>
+    <div class="container">
+      <!-- Left Side - Drafted Players -->
+      <div class="side drafted-players">
+        <h2>Drafted Players</h2>
+        <ul id="draftedPlayersList"></ul>
+      </div>
 
-    <div
-      style="
-        float: left;
-        width: 20%;
-        border-right: 1px solid black;
-        padding-right: 10px;
-      "
-    >
-      <h2>Drafted Players</h2>
-      <ul id="draftedPlayersList">
-        <!-- This list will be populated using JavaScript -->
-      </ul>
-    </div>
+      <!-- Center - Available Players -->
+      <div class="main-content">
+        <button class="reset-btn" onclick="resetSession()">
+          Reset Session
+        </button>
+        <button onclick="optimizePlayers()">Optimize</button>
+        <h2>Available Players</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Value Over Next Round</th>
+              <th>Total Point Gains</th>
+              <th>ADP</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for player in players.itertuples() %}
+            <tr id="player-{{ player.name.replace(' ', '-') }}">
+              <td>{{ player.name }}</td>
+              <td>{{ player.pos }}</td>
+              <td>{{ player.valueOverNextRound }}</td>
+              <td>{{ player.total_pt_gains }}</td>
+              <td>{{ player.ADP }}</td>
+              <td>
+                <button onclick="selectPlayer('{{ player.name }}')">
+                  Selected
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-    <div style="float: left; width: 50%; padding-right: 10px">
-      <button onclick="optimizePlayers()">Optimize</button>
-      <h2>Available Players</h2>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Value Over Next Round</th>
-            <th>Total Point Gains</th>
-            <th>ADP</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for player in players.itertuples() %}
-          <tr id="player-{{ player.name.replace(' ', '-') }}">
-            <td>{{ player.name }}</td>
-            <td>{{ player.pos }}</td>
-            <td>{{ player.valueOverNextRound }}</td>
-            <td>{{ player.total_pt_gains }}</td>
-            <td>{{ player.ADP }}</td>
-            <td>
-              <button onclick="selectPlayer('{{ player.name }}')">
-                Selected
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div style="float: right; width: 20%">
-      <h2>Your Team</h2>
-      <ul id="yourTeamList">
-        <!-- This list will be populated similarly to the Drafted Players list -->
-      </ul>
+      <!-- Right Side - Your Team -->
+      <div class="side your-team">
+        <h2>Your Team</h2>
+        <ul id="yourTeamList"></ul>
+      </div>
     </div>
 
     <script>
@@ -77,8 +73,10 @@
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
         item.innerHTML =
+          "<span class='drafted-name'>" +
           name +
-          " <button onclick='addToYourTeam(\"" +
+          "</span> " +
+          "<button onclick='addToYourTeam(\"" +
           name +
           "\")'>Add to Team</button>";
         list.appendChild(item);

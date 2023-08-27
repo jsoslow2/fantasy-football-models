@@ -49,14 +49,64 @@ button:hover {
   color: white; /* Changing text color on hover */
 }
 
-/* Adding a right border to the selected players section */
-div[style*="float: left; width: 20%"] {
-  border-right: 2px solid black;
+.container {
+  display: flex;
+  height: 100vh; /* ensure the container fills the screen */
 }
 
-#resetButton {
-  position: absolute; /* This will position the button with respect to its nearest positioned ancestor */
-  top: 10px; /* Adjust as needed for exact positioning */
-  left: 10px; /* Adjust as needed for exact positioning */
+.side {
+  padding: 20px;
+}
+
+.drafted-players {
+  background-color: #333; /* or your preferred darker color */
+  color: #fff; /* adjust text color for better contrast */
+  width: 225px;
+  padding: 20px;
+  overflow-y: auto; /* to handle overflow content, if any */
+  flex: none;
+}
+
+.your-team {
+  background-color: #333; /* or your preferred darker color */
+  color: #fff; /* adjust text color for better contrast */
+  width: 200px;
+  overflow-y: auto; /* to handle overflow content, if any */
+  flex: none;
+}
+
+.main-content {
+  flex: 3; /* this allows the main content to take up thrice the space as the sides */
+  padding: 20px;
+  background-color: #f4f4f4; /* or your preferred lighter color */
+}
+
+.reset-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#draftedPlayersList {
+  list-style-type: decimal; /* Show numbers instead of bullets */
+  padding-left: 0; /* Remove default padding */
+}
+
+/* Adjustments for name */
+.drafted-name {
+  display: inline-block; /* To allow for margin adjustments */
+  margin-right: 10px; /* Space between the name and the button */
+}
+
+/* Additional adjustments for the Add to Team button (optional) */
+#draftedPlayersList button {
+  border: none;
+  color: white;
   padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
 }
