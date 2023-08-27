@@ -25,6 +25,7 @@ executing==1.2.0
 fastjsonschema==2.18.0
 Flask==2.3.2
 fonttools==4.42.1
+gunicorn==21.2.0
 idna==3.4
 importlib-metadata==6.8.0
 importlib-resources==6.0.0
