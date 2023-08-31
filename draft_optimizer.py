@@ -31,9 +31,9 @@ yourTeam = []
 
 # Filtering data based on conditions
 replacement_rb = individuals[(individuals['pos'] == 'RB') & (
-    individuals['posrank'] == 36)].iloc[:, :ntrees]
+    individuals['posrank'] == 26)].iloc[:, :ntrees]
 replacement_wr = individuals[(individuals['pos'] == 'WR') & (
-    individuals['posrank'] == 60)].iloc[:, :ntrees]
+    individuals['posrank'] == 26)].iloc[:, :ntrees]
 replacement_te = individuals[(individuals['pos'] == 'TE') & (
     individuals['posrank'] == 11)].iloc[:, :ntrees]
 replacement_qb = individuals[(individuals['pos'] == 'QB') & (
@@ -79,6 +79,8 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
                          & (yourDraft['pos'] == 'RB')]
     second_rb = yourDraft[(yourDraft['teamrank'] == 2)
                           & (yourDraft['pos'] == 'RB')]
+    third_rb = yourDraft[(yourDraft['teamrank'] == 3)
+                         & (yourDraft['pos'] == 'RB')]
     first_wr = yourDraft[(yourDraft['teamrank'] == 1)
                          & (yourDraft['pos'] == 'WR')]
     second_wr = yourDraft[(yourDraft['teamrank'] == 2)
@@ -90,7 +92,7 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
     first_qb = yourDraft[(yourDraft['teamrank'] == 1)
                          & (yourDraft['pos'] == 'QB')]
 
-    first_flex = second_rb if second_rb.preds.max() > third_wr.preds.max() else third_wr
+    first_flex = third_rb if third_rb.preds.max() > third_wr.preds.max() else third_wr
 
     # For RBs
     t_rb = replacement_rb.transpose()
@@ -98,6 +100,8 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
                     for _ in range(3)], axis=0)
     if not first_rb.empty:
         rbs.iloc[0, :] = first_rb.iloc[0, :ntrees]
+    if not second_rb.empty:
+        rbs.iloc[1, :] = second_rb.iloc[0, :ntrees]
     if not first_flex.empty:
         rbs.iloc[2, :] = first_flex.iloc[0, :ntrees]
 
