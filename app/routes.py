@@ -18,7 +18,7 @@ def draft():
     # Call the optimizer
     optimized_players = draft_optimize(session['yourTeam'], session['draftedOverall'], session['ppr'], session['teams'])
 
-    return render_template('draft.html', players=optimized_players.sort_values(by='valueOverNextRound', ascending = False))
+    return render_template('draft.html', players=optimized_players.sort_values(by='valueOverNextRound', ascending = False), teams = session['teams'])
 
 
 
@@ -79,3 +79,19 @@ def save_settings():
     session['ppr'] = ppr
     session['teams'] = teams
     return jsonify(success=True)
+
+
+@app.route('/revert_player', methods=['POST'])
+def revert_player():
+    player_name = request.args.get('name')
+    print(f"Reverting player: {player_name}")  # Debug print
+    if player_name:
+        # Remove the player from the draftedOverall list
+        drafted = session.get('draftedOverall', [])
+        if player_name in drafted:
+            drafted.remove(player_name)
+        session['draftedOverall'] = drafted
+
+    print(session['draftedOverall'])
+
+    return "OK", 200

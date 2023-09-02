@@ -76,6 +76,7 @@
         <button class="optimize-button" onclick="optimizePlayers()">
           Optimize Available Players
         </button>
+        <div id="round-info"></div>
         <table border="1">
           <thead>
             <tr>
@@ -127,12 +128,14 @@
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
         item.innerHTML =
-          "<span class='drafted-name'>" +
+        item.innerHTML =
           name +
-          "</span> " +
-          "<button onclick='addToYourTeam(\"" +
+          " <button onclick='addToYourTeam(\"" +
           name +
-          "\")'>Add to Team</button>";
+          "\")'>Add to Team</button> <button onclick='revertPlayer(\"" +
+          name +
+          "\")'>Revert</button>";
+
         list.appendChild(item);
 
         // Send an AJAX request to update the server-side data
@@ -141,6 +144,8 @@
         }).then((response) => {
           if (response.ok) {
             console.log("player drafted");
+            currentPick++;
+            updateRoundInfo();
           }
         });
       }
@@ -217,6 +222,60 @@
 
         // [Optional] Send an AJAX request if you wish to update server-side data
       }
+      let currentPick = 0; // Initialize a variable to keep track of the current pick
+
+      function updateRoundInfo() {
+        let numberOfTeams = {{ teams }}; // Assuming you have this value in your Flask session
+        console.log(numberOfTeams);
+        let round = Math.floor(currentPick / numberOfTeams) + 1;
+        let pick = (currentPick % numberOfTeams) + 1;
+        let roundInfo = `${ordinalSuffix(round)} round, ${ordinalSuffix(
+          pick
+        )} pick`;
+        document.getElementById("round-info").innerText = roundInfo;
+      }
+
+      // Function to generate the ordinal suffix for a number
+      function ordinalSuffix(i) {
+        let j = i % 10,
+          k = i % 100;
+        if (j === 1 && k !== 11) {
+          return i + "st";
+        }
+        if (j === 2 && k !== 12) {
+          return i + "nd";
+        }
+        if (j === 3 && k !== 13) {
+          return i + "rd";
+        }
+        return i + "th";
+      }
+
+      function revertPlayer(name) {
+        // Remove the player row from the drafted players list
+        let draftedNameId = "drafted-" + name.replace(/\s+/g, "-");
+        let draftedElement = document.getElementById(draftedNameId);
+        if (draftedElement) {
+          draftedElement.remove();
+        }
+
+        // Add player back to the available players table
+        // Your logic here to add back to available players.
+        // You can either directly manipulate DOM or call a server function to refresh the list
+
+        // Update the server-side data
+        // Send an AJAX request to update the server-side data
+        fetch(`/revert_player?name=${name}`, {
+          method: "POST",
+        }).then((response) => {
+          if (response.ok) {
+            console.log("Player reverted");
+
+            //reoptimize table
+            optimizePlayers();
+          }
+        });
+      }
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -263,6 +322,7 @@
         $("table").DataTable({
           order: [[2, "desc"]],
           pageLength: 300,
+          lengthChange: false, // Disable the "Show X entries" dropdown
         });
       });
     </script>
