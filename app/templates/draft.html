@@ -117,7 +117,12 @@
     </div>
 
     <script>
+      let draftCounter = 0;
+
       function selectPlayer(name) {
+        // Increment the draft counter
+        draftCounter++;
+
         // Remove the player row from the available players table
         if (name !== "Default Player") {
           let playerNameId = "player-" + name.replace(/\s+/g, "-");
@@ -132,6 +137,8 @@
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
         item.innerHTML =
+          draftCounter +
+          ". " +
           name +
           " <button onclick='addToYourTeam(\"" +
           name +
@@ -139,7 +146,12 @@
           name +
           "\")'>Revert</button>";
 
-        list.appendChild(item);
+        // Insert the new item at the beginning of the list
+        if (list.firstChild) {
+          list.insertBefore(item, list.firstChild);
+        } else {
+          list.appendChild(item);
+        }
 
         // Send an AJAX request to update the server-side data
         fetch(`/select_player?name=${name}`, {
@@ -259,6 +271,7 @@
       }
 
       function revertPlayer(name) {
+        draftCounter--;
         // Remove the player row from the drafted players list
         let draftedNameId = "drafted-" + name.replace(/\s+/g, "-");
         let draftedElement = document.getElementById(draftedNameId);

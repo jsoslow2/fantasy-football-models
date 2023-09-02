@@ -84,7 +84,7 @@ button:hover {
 }
 
 #draftedPlayersList {
-  list-style-type: decimal; /* Show numbers instead of bullets */
+  list-style-type: none; /* Show numbers instead of bullets */
   padding-left: 0; /* Remove default padding */
 }
 
