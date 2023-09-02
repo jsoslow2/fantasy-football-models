@@ -278,4 +278,35 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
     secondDataframe['valueOverNextRound'] = round(secondDataframe['valueOverNextRound'], 1)
     secondDataframe['ADP'] = round(secondDataframe['ADP'], 1)
 
-    return secondDataframe
+    # add kickers and defense
+    teams = {'NO', 'ARI', 'TEN', 'DET', 'WAS', 'BUF', 'ATL', 'NYJ', 'SF', 'TB', 'CLE', 'MIN', 'PHI', 'LV', 'FA', 'HOU', 'CIN', 'MIA', 'LAC', 'NE', 'PIT', 'IND', 'BAL', 'DAL', 'DEN', 'KC', 'NYG', 'SEA', 'GB', 'JAC', 'CHI', 'CAR', 'LAR'}
+    # Create a list to hold the new entries
+    new_entries = []
+
+    # Loop over each unique team
+    for team in teams:
+        kicker_entry = {
+            'name': f"{team} Kicker",
+            'pos': 'K',
+            'valueOverNextRound': -100,
+            'total_pt_gains': -100,
+            # ... other columns with default or null values
+        }
+        defense_entry = {
+            'name': f"{team} Defense",
+            'pos': 'DEF',
+            'valueOverNextRound': -99,
+            'total_pt_gains': -99,
+            # ... other columns with default or null values
+        }
+        new_entries.append(kicker_entry)
+        new_entries.append(defense_entry)
+
+    # Create a new DataFrame with the same columns as `secondDataframe`
+    new_df = pd.DataFrame(new_entries, columns=secondDataframe.columns)
+
+    # Concatenate with the existing DataFrame
+    final_df = pd.concat([secondDataframe, new_df], ignore_index=True)
+    final_df.fillna(0, inplace = True)
+
+    return final_df

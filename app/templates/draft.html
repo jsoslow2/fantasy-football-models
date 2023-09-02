@@ -148,6 +148,7 @@
         fetch("/get_optimized_players")
           .then((response) => response.json())
           .then((data) => {
+            console.log(data);
             // Clear the existing table rows
             let tableBody = document.querySelector("tbody");
             tableBody.innerHTML = "";
