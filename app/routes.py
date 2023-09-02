@@ -95,3 +95,7 @@ def revert_player():
     print(session['draftedOverall'])
 
     return "OK", 200
+
+@app.route('/get_current_teams', methods=['GET'])
+def get_current_teams():
+    return jsonify(teams=session['teams'])

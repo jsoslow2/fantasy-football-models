@@ -190,3 +190,14 @@ table tr:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.datatable-container {
+  position: relative;
+}
+
+#round-info {
+  position: absolute;
+  top: 0;
+  left: 0; /* or you can use 'left: 0;' if you want it on the left side */
+  z-index: 1; /* to make sure it appears above the DataTable */
+}

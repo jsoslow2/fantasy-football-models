@@ -30,6 +30,8 @@
     ></script>
   </head>
   <body>
+    <input type="hidden" id="numberOfTeams" value="{{ teams }}" />
+
     <!-- The Modal -->
     <!-- Modal Backdrop/Overlay -->
     <div id="myModal" class="modal">
@@ -76,33 +78,35 @@
         <button class="optimize-button" onclick="optimizePlayers()">
           Optimize Available Players
         </button>
-        <div id="round-info"></div>
-        <table border="1">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Value Over Next Round</th>
-              <th>Total Point Gains</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for player in players.itertuples() %}
-            <tr id="player-{{ player.name.replace(' ', '-') }}">
-              <td>{{ player.name }}</td>
-              <td>{{ player.pos }}</td>
-              <td>{{ player.valueOverNextRound }}</td>
-              <td>{{ player.total_pt_gains }}</td>
-              <td>
-                <button onclick="selectPlayer('{{ player.name }}')">
-                  Selected
-                </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        <div class="datatable-container">
+          <div id="round-info"></div>
+          <table border="1" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Value Over Next Round</th>
+                <th>Total Point Gains</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for player in players.itertuples() %}
+              <tr id="player-{{ player.name.replace(' ', '-') }}">
+                <td>{{ player.name }}</td>
+                <td>{{ player.pos }}</td>
+                <td>{{ player.valueOverNextRound }}</td>
+                <td>{{ player.total_pt_gains }}</td>
+                <td>
+                  <button onclick="selectPlayer('{{ player.name }}')">
+                    Selected
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Right Side - Your Team -->
@@ -127,7 +131,6 @@
         let list = document.getElementById("draftedPlayersList");
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
-        item.innerHTML =
         item.innerHTML =
           name +
           " <button onclick='addToYourTeam(\"" +
@@ -155,6 +158,7 @@
         fetch("/get_optimized_players")
           .then((response) => response.json())
           .then((data) => {
+            updateRoundInfo();
             console.log(data);
             // Clear the existing table rows
             let tableBody = document.querySelector("tbody");
@@ -225,14 +229,17 @@
       let currentPick = 0; // Initialize a variable to keep track of the current pick
 
       function updateRoundInfo() {
-        let numberOfTeams = {{ teams }}; // Assuming you have this value in your Flask session
-        console.log(numberOfTeams);
-        let round = Math.floor(currentPick / numberOfTeams) + 1;
-        let pick = (currentPick % numberOfTeams) + 1;
-        let roundInfo = `${ordinalSuffix(round)} round, ${ordinalSuffix(
-          pick
-        )} pick`;
-        document.getElementById("round-info").innerText = roundInfo;
+        fetch("/get_current_teams")
+          .then((response) => response.json())
+          .then((data) => {
+            let numberOfTeams = data.teams;
+            let round = Math.floor(currentPick / numberOfTeams) + 1;
+            let pick = (currentPick % numberOfTeams) + 1;
+            let roundInfo = `${ordinalSuffix(
+              round
+            )} round, pick ${pick}/${numberOfTeams}`;
+            document.getElementById("round-info").innerText = roundInfo;
+          });
       }
 
       // Function to generate the ordinal suffix for a number
@@ -273,6 +280,9 @@
 
             //reoptimize table
             optimizePlayers();
+
+            currentPick--;
+            updateRoundInfo();
           }
         });
       }
