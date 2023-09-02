@@ -114,10 +114,12 @@
     <script>
       function selectPlayer(name) {
         // Remove the player row from the available players table
-        let playerNameId = "player-" + name.replace(/\s+/g, "-");
-        let playerElement = document.getElementById(playerNameId);
-        if (playerElement) {
-          playerElement.remove();
+        if (name !== "Default Player") {
+          let playerNameId = "player-" + name.replace(/\s+/g, "-");
+          let playerElement = document.getElementById(playerNameId);
+          if (playerElement) {
+            playerElement.remove();
+          }
         }
 
         // Add player to the drafted list and provide an "Add to Team" button
@@ -260,7 +262,7 @@
       $(document).ready(function () {
         $("table").DataTable({
           order: [[2, "desc"]],
-          pageLength: 100,
+          pageLength: 300,
         });
       });
     </script>

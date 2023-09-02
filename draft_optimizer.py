@@ -283,6 +283,14 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
     # Create a list to hold the new entries
     new_entries = []
 
+    #default player
+    default_player = {
+        'name': 'Default Player',
+        'pos': 'Any',
+        'valueOverNextRound': -101,
+        'total_pt_gains': -101
+    }
+
     # Loop over each unique team
     for team in teams:
         kicker_entry = {
@@ -301,6 +309,7 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
         }
         new_entries.append(kicker_entry)
         new_entries.append(defense_entry)
+    new_entries.append(default_player)
 
     # Create a new DataFrame with the same columns as `secondDataframe`
     new_df = pd.DataFrame(new_entries, columns=secondDataframe.columns)
