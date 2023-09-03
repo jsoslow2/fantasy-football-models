@@ -8,6 +8,7 @@
       type="text/css"
       href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css"
     />
+
     <!-- jQuery library -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -20,6 +21,10 @@
     ></script>
     <link
       href="{{ url_for('static', filename='css/output.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
       rel="stylesheet"
     />
   </head>
@@ -162,15 +167,11 @@
         let list = document.getElementById("draftedPlayersList");
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
-        item.innerHTML =
-          draftCounter +
-          ". " +
-          name +
-          " <button onclick='addToYourTeam(\"" +
-          name +
-          "\")'>Add to Team</button> <button onclick='revertPlayer(\"" +
-          name +
-          "\")'>Revert</button>";
+        item.innerHTML = `
+  ${draftCounter}. ${name} 
+  <button class="add-to-team bg-green-100 hover:bg-green-300 text-green-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='addToYourTeam("${name}")'>+</button> 
+  <button class="revert bg-transparent hover:bg-red-300 border border-grey-200 text-red-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='revertPlayer("${name}")'>x</button>
+`;
 
         // Insert the new item at the beginning of the list
         if (list.firstChild) {
@@ -259,7 +260,7 @@
         // Change the button for the player in the drafted list to a checkmark and disable it
         let btnId = "drafted-" + name.replace(/\s+/g, "-");
         let buttonElement = document.querySelector(`#${btnId} button`);
-        buttonElement.innerHTML = "&#10004;"; // This is a checkmark symbol
+        buttonElement.innerHTML = '<span class="text-xs">&#10004;</span>'; //this is a checkmark
         buttonElement.disabled = true;
 
         // [Optional] Send an AJAX request if you wish to update server-side data
