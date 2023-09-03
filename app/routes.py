@@ -44,8 +44,6 @@ def get_optimized_players():
     # Convert the DataFrame to a list of dictionaries for JSON serialization
     data = optimized_players.sort_values(by='valueOverNextRound', ascending=False).to_dict(orient='records')
 
-    print(session['ppr'])
-    print(session['teams'])
     return jsonify(data)
 
 
@@ -78,6 +76,8 @@ def save_settings():
 
     session['ppr'] = ppr
     session['teams'] = teams
+    print(ppr)
+    print(teams)
     return jsonify(success=True)
 
 

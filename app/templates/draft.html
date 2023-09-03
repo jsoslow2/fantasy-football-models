@@ -24,37 +24,39 @@
     />
   </head>
   <body class="bg-gray-100 text-black">
-    <!-- The Modal -->
-    <!-- Modal Backdrop/Overlay -->
-    <div id="myModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Setup</h2>
-        <form action="#">
-          <label for="ppr">PPR:</label><br />
-          <select class="form-control" id="ppr" name="ppr">
-            <option value="0">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1" selected>1</option>
-          </select>
-          <br />
-          <label for="teams">Number of Teams:</label><br />
-          <input
-            type="number"
-            class="form-control"
-            id="teams"
-            name="teams"
-            min="6"
-            max="24"
-            value="10"
-          />
-          <br />
-          <input type="submit" id="submitButton" value="Submit" />
-        </form>
-      </div>
-    </div>
-
     <div class="container flex h-screen w-full">
+      <div class="league-settings-panel p-4">
+        <button
+          id="toggleSettings"
+          onclick="toggleSettingsPanel()"
+          class="bg-blue-500 text-white p-2 rounded"
+        >
+          League Settings
+        </button>
+        <div id="settingsContent" class="hidden">
+          <form id="settingsForm" action="#">
+            <label for="ppr">PPR:</label><br />
+            <select class="form-control" id="ppr" name="ppr">
+              <option value="0">0</option>
+              <option value="0.5">0.5</option>
+              <option value="1" selected>1</option>
+            </select>
+            <br />
+            <label for="teams">Number of Teams:</label><br />
+            <input
+              type="number"
+              class="form-control"
+              id="teams"
+              name="teams"
+              min="6"
+              max="24"
+              value="10"
+            />
+            <br />
+            <input type="submit" id="submitButton" value="Submit" />
+          </form>
+        </div>
+      </div>
       <!-- Left Side - Drafted Players -->
       <div class="side drafted-players flex-1 p-4">
         <h2 class="font-sans text-2xl">Drafted Players</h2>
@@ -309,18 +311,28 @@
           }
         });
       }
+
+      function toggleSettingsPanel() {
+        const panel = document.getElementById("settingsContent");
+        panel.classList.toggle("hidden");
+      }
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        let modal = document.getElementById("myModal");
+        const form = document.getElementById("settingsForm");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          // Your code to handle the form data here
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
         let btn = document.getElementById("submitButton");
         let pprInput = document.getElementById("ppr");
         let teamsInput = document.getElementById("teams");
 
-        // Show the modal when the page loads
-        modal.style.display = "block";
-
         btn.onclick = function (event) {
+          console.log("submit clicked");
           event.preventDefault();
 
           let pprValue = pprInput.value;
@@ -336,8 +348,6 @@
             .then((response) => response.json())
             .then((data) => {
               if (data.success) {
-                // Close the modal if data was saved successfully
-                modal.style.display = "none";
                 optimizePlayers();
               } else {
                 alert("Failed to save settings. Please try again.");

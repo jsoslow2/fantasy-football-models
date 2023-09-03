@@ -49,9 +49,6 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
     # Assuming necessary data is already loaded: individuals, preds_copy, draftedOverall, yourTeam, etc.
     # ... [Your data loading code here]
 
-    print(ppr)
-    print(num_teams)
-    print('in optimize')
 
     if ppr == '0':
         individuals_path = "data/individuals_0_PPR.csv"
