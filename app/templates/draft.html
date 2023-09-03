@@ -99,9 +99,19 @@
         <div class="header-container">
           <h2 class="font-sans text-2xl">Available Players</h2>
         </div>
-        <button class="bg-blue-500 text-white" onclick="optimizePlayers()">
-          Optimize Available Players
-        </button>
+        <div class="flex justify-center mb-4 sticky top-0 z-50">
+          <button
+            id="optimizeButton"
+            onclick="optimizePlayers()"
+            class="bg-green-300 hover:bg-green-500 text-black font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300"
+          >
+            <span id="optimizeText">Optimize Available Players</span>
+            <span id="optimizeSpinner" class="hidden">
+              <i class="fas fa-spinner fa-spin"></i>
+            </span>
+          </button>
+        </div>
+
         <div class="datatable-container">
           <div id="round-info"></div>
           <table class="min-w-full bg-white">
@@ -204,6 +214,13 @@
       }
 
       function optimizePlayers() {
+        // Toggle button to loading state
+        let button = document.getElementById("optimizeButton");
+        let buttonText = document.getElementById("optimizeText");
+        button.classList.add("bg-green-500", "cursor-not-allowed");
+        button.disabled = true;
+        buttonText.textContent = "Loading...";
+
         // Make an AJAX request
         fetch("/get_optimized_players")
           .then((response) => response.json())
@@ -242,6 +259,18 @@
               // Append the row to the table
               tableBody.appendChild(row);
             });
+            // Toggle button back to normal state
+            button.classList.remove("bg-green-500", "cursor-not-allowed");
+            button.disabled = false;
+            buttonText.textContent = "Optimize Available Players";
+          })
+          .catch((error) => {
+            console.error("Optimization failed:", error);
+
+            // Toggle button back to normal state in case of error
+            button.classList.remove("bg-green-500", "cursor-not-allowed");
+            button.disabled = false;
+            buttonText.textContent = "Optimize Available Players";
           });
       }
 
@@ -392,6 +421,7 @@
           order: [[2, "desc"]],
           pageLength: 300,
           lengthChange: false, // Disable the "Show X entries" dropdown
+          searching: false,
         });
       });
     </script>
