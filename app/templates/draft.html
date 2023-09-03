@@ -25,42 +25,56 @@
   </head>
   <body class="bg-gray-100 text-black">
     <div class="container flex h-screen w-full">
-      <div class="league-settings-panel p-4">
-        <button
-          id="toggleSettings"
-          onclick="toggleSettingsPanel()"
-          class="bg-blue-500 text-white p-2 rounded"
-        >
-          League Settings
-        </button>
-        <div id="settingsContent" class="hidden">
+      <div class="side bg-white p-4 shadow-md">
+        <h3 class="font-sans text-lg">League Settings</h3>
+        <div id="settingsContent">
           <form id="settingsForm" action="#">
-            <label for="ppr">PPR:</label><br />
-            <select class="form-control" id="ppr" name="ppr">
-              <option value="0">0</option>
-              <option value="0.5">0.5</option>
-              <option value="1" selected>1</option>
-            </select>
-            <br />
-            <label for="teams">Number of Teams:</label><br />
+            <div class="flex items-center">
+              <label for="ppr" class="block text-sm font-medium text-gray-700"
+                >PPR:</label
+              >
+              <select
+                class="form-control"
+                class="rounded-md"
+                id="ppr"
+                name="ppr"
+              >
+                <option value="0">0</option>
+                <option value="0.5">0.5</option>
+                <option value="1" selected>1</option>
+              </select>
+            </div>
+            <div class="flex items-center">
+              <label for="teams" class="block text-sm font-medium text-gray-700"
+                >Number of Teams:</label
+              >
+              <input
+                type="number"
+                class="form-control form-control rounded-md"
+                id="teams"
+                name="teams"
+                min="6"
+                max="24"
+                value="10"
+              />
+            </div>
             <input
-              type="number"
-              class="form-control"
-              id="teams"
-              name="teams"
-              min="6"
-              max="24"
-              value="10"
+              type="submit"
+              id="submitButton"
+              value="Submit"
+              class="px-4 py-2 border rounded-md hover:bg-gray-100"
             />
-            <br />
-            <input type="submit" id="submitButton" value="Submit" />
           </form>
         </div>
-      </div>
-      <!-- Left Side - Drafted Players -->
-      <div class="side drafted-players flex-1 p-4">
-        <h2 class="font-sans text-2xl">Drafted Players</h2>
-        <ul id="draftedPlayersList"></ul>
+
+        <!-- Divider -->
+        <hr class="my-4" />
+
+        <!-- Left Side - Drafted Players -->
+        <div class="side drafted-players flex-1 p-4">
+          <h2 class="font-sans text-2xl">Drafted Players</h2>
+          <ul id="draftedPlayersList"></ul>
+        </div>
       </div>
 
       <!-- Center - Available Players -->
