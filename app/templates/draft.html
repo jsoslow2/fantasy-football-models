@@ -113,7 +113,10 @@
         </div>
 
         <div class="datatable-container">
-          <div id="round-info"></div>
+          <div class="flex justify-between">
+            <div id="round-info"></div>
+            <div id="next-pick-info"></div>
+          </div>
           <table class="min-w-full bg-white">
             <thead>
               <tr>
@@ -324,6 +327,28 @@
               round
             )} round, pick ${pick}/${numberOfTeams}`;
             document.getElementById("round-info").innerText = roundInfo;
+
+            // Calculating the next pick
+            function roundUp(x, to) {
+              return to * (Math.floor(x / to) + (x % to > 0 ? 1 : 0));
+            }
+
+            // Calculate pick number, next pick, and other values
+            console.log(`Pick Number: ${currentPick}`);
+            pick = currentPick + 1;
+            let ceiling = roundUp(pick, numberOfTeams);
+            console.log(`Ceiling: ${ceiling}`);
+            let leftTillEndOfRound = ceiling - pick;
+            console.log(`Left Till End of Round: ${leftTillEndOfRound}`);
+            let nextPick = ceiling + leftTillEndOfRound + 1;
+            console.log(`Next Pick: ${nextPick}`);
+
+            let nextPickInfo = `${
+              nextPick - pick - 1
+            } picks between, ${ordinalSuffix(round + 1)} round pick ${
+              nextPick - ceiling
+            }/${numberOfTeams}`;
+            document.getElementById("next-pick-info").innerText = nextPickInfo;
           });
       }
 
