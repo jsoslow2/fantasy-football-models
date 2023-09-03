@@ -153,12 +153,9 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
 
         for i in range(len(positional_df)):
             row = positional_df.iloc[i]
-            # Using values to get numpy arrays
-            better = indi_preds.values > row[::-1].values
-            pct_better = max(pct_better, sum(better) / ntrees)
-            avg_pts_gains = np.mean(
-                indi_preds[better].values - np.array(row[::-1])[better])
-            total_pt_gains = max(total_pt_gains, pct_better * avg_pts_gains)
+            better = indi_preds.values > row[::-1].values  # Using values to get numpy arrays
+            elementwise_gains = np.sum(indi_preds[better].values - np.array(row[::-1])[better]) / ntrees
+            total_pt_gains = max(total_pt_gains, elementwise_gains)
 
         # Finding pick number, your next pick, and the likelihood of a player staying on board
         pickNumber = len(draftedOverall) + 1

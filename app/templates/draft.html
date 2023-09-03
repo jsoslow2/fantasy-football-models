@@ -122,6 +122,7 @@
               <tr>
                 <th class="py-2 px-4 border-b border-gray-200">Name</th>
                 <th class="py-2 px-4 border-b border-gray-200">Position</th>
+                <th class="py-2 px-4 border-b border-gray-200">Team</th>
                 <th class="py-2 px-4 border-b border-gray-200">
                   Value Over Next Round
                 </th>
@@ -142,6 +143,9 @@
                 </td>
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
                   {{ player.pos }}
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  {{ player.team }}
                 </td>
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
                   {{ player.valueOverNextRound }}
@@ -244,15 +248,18 @@
               );
 
               // Add player data to the row
-              ["name", "pos", "valueOverNextRound", "total_pt_gains"].forEach(
-                (key) => {
-                  let cell = document.createElement("td");
-                  cell.textContent = player[key];
-                  cell.className =
-                    "py-2 px-4 border-b border-gray-200 text-left";
-                  row.appendChild(cell);
-                }
-              );
+              [
+                "name",
+                "pos",
+                "team",
+                "valueOverNextRound",
+                "total_pt_gains",
+              ].forEach((key) => {
+                let cell = document.createElement("td");
+                cell.textContent = player[key];
+                cell.className = "py-2 px-4 border-b border-gray-200 text-left";
+                row.appendChild(cell);
+              });
 
               // Add the "Select" button
               let cell = document.createElement("td");
