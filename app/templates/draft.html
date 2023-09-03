@@ -149,9 +149,9 @@
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
                   <button
                     onclick="selectPlayer('{{ player.name }}')"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    class="text-gray-700 bg-gray-100 py-1 px-2 rounded hover:bg-gray-200"
                   >
-                    Selected
+                    + Selected
                   </button>
                 </td>
               </tr>
@@ -234,6 +234,7 @@
             // Populate the table with the new data
             data.forEach((player) => {
               let row = document.createElement("tr");
+              row.className = "hover:bg-gray-100";
               row.setAttribute(
                 "id",
                 "player-" + player.name.replace(/\s+/g, "-")
@@ -244,15 +245,20 @@
                 (key) => {
                   let cell = document.createElement("td");
                   cell.textContent = player[key];
+                  cell.className =
+                    "py-2 px-4 border-b border-gray-200 text-left";
                   row.appendChild(cell);
                 }
               );
 
               // Add the "Select" button
               let cell = document.createElement("td");
+              cell.className = "py-2 px-4 border-b border-gray-200 text-left";
               let button = document.createElement("button");
-              button.textContent = "Selected";
+              button.textContent = "+ selected";
               button.setAttribute("onclick", `selectPlayer('${player.name}')`);
+              button.className =
+                "text-gray-700 bg-gray-100 py-1 px-2 rounded hover:bg-gray-200";
               cell.appendChild(button);
               row.appendChild(cell);
 
