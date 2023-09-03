@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build": "npx tailwindcss -i ./app/static/css/tailwind_styles.css -o ./app/static/css/output.css",
+    "watch": "npx tailwindcss -i ./app/static/css/tailwind_styles.css -o ./app/static/css/output.css --watch"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.15",
+    "postcss-cli": "^10.1.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}

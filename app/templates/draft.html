@@ -2,10 +2,6 @@
 <html>
   <head>
     <title>Football Draft Optimizer</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
-    />
     <!-- DataTables CSS -->
     <link
       rel="stylesheet"
@@ -14,24 +10,20 @@
     />
     <!-- jQuery library -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-    <link
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
     <script
       type="text/javascript"
       charset="utf8"
       src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"
     ></script>
+    <link
+      href="{{ url_for('static', filename='css/output.css') }}"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <input type="hidden" id="numberOfTeams" value="{{ teams }}" />
-
     <!-- The Modal -->
     <!-- Modal Backdrop/Overlay -->
     <div id="myModal" class="modal">
@@ -80,25 +72,43 @@
         </button>
         <div class="datatable-container">
           <div id="round-info"></div>
-          <table border="1" style="width: 100%">
+          <table class="min-w-full bg-white">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Value Over Next Round</th>
-                <th>Total Point Gains</th>
-                <th>Actions</th>
+                <th class="py-2 px-4 border-b border-gray-200">Name</th>
+                <th class="py-2 px-4 border-b border-gray-200">Position</th>
+                <th class="py-2 px-4 border-b border-gray-200">
+                  Value Over Next Round
+                </th>
+                <th class="py-2 px-4 border-b border-gray-200">
+                  Total Point Gains
+                </th>
+                <th class="py-2 px-4 border-b border-gray-200">Actions</th>
               </tr>
             </thead>
             <tbody>
               {% for player in players.itertuples() %}
-              <tr id="player-{{ player.name.replace(' ', '-') }}">
-                <td>{{ player.name }}</td>
-                <td>{{ player.pos }}</td>
-                <td>{{ player.valueOverNextRound }}</td>
-                <td>{{ player.total_pt_gains }}</td>
-                <td>
-                  <button onclick="selectPlayer('{{ player.name }}')">
+              <tr
+                id="player-{{ player.name.replace(' ', '-') }}"
+                class="hover:bg-gray-100"
+              >
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  {{ player.name }}
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  {{ player.pos }}
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  {{ player.valueOverNextRound }}
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  {{ player.total_pt_gains }}
+                </td>
+                <td class="py-2 px-4 border-b border-gray-200 text-left">
+                  <button
+                    onclick="selectPlayer('{{ player.name }}')"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
                     Selected
                   </button>
                 </td>

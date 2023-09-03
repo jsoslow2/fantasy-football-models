@@ -1,3 +1,5 @@
 *rf*
 env/
 __pycache__/
+# Generated CSS File
+app/static/css/output.css
