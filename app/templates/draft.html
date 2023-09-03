@@ -23,7 +23,7 @@
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class="bg-gray-100 text-black">
     <!-- The Modal -->
     <!-- Modal Backdrop/Overlay -->
     <div id="myModal" class="modal">
@@ -54,20 +54,20 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container flex h-screen w-full">
       <!-- Left Side - Drafted Players -->
-      <div class="side drafted-players">
-        <h2>Drafted Players</h2>
+      <div class="side drafted-players flex-1 p-4">
+        <h2 class="font-sans text-2xl">Drafted Players</h2>
         <ul id="draftedPlayersList"></ul>
       </div>
 
       <!-- Center - Available Players -->
-      <div class="main-content">
+      <div class="main-content flex-3 p-4">
         <div class="header-container">
-          <h2>Available Players</h2>
+          <h2 class="font-sans text-2xl">Available Players</h2>
           <button onclick="resetSession()">Reset Session</button>
         </div>
-        <button class="optimize-button" onclick="optimizePlayers()">
+        <button class="bg-blue-500 text-white" onclick="optimizePlayers()">
           Optimize Available Players
         </button>
         <div class="datatable-container">
@@ -120,8 +120,8 @@
       </div>
 
       <!-- Right Side - Your Team -->
-      <div class="side your-team">
-        <h2>Your Team</h2>
+      <div class="side your-team flex-1 p-4">
+        <h2 class="font-sans text-2xl">Your Team</h2>
         <ul id="yourTeamList"></ul>
       </div>
     </div>
