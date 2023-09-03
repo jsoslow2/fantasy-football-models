@@ -63,12 +63,24 @@
                 value="10"
               />
             </div>
-            <input
-              type="submit"
-              id="submitButton"
-              value="Submit"
-              class="px-4 py-2 border rounded-md hover:bg-gray-100"
-            />
+            <!-- Submit and Reset Session buttons inside a flex container -->
+            <!-- Submit and Reset Session buttons inside a flex container -->
+            <div class="flex items-center justify-between">
+              <input
+                type="submit"
+                id="submitButton"
+                value="Submit"
+                class="w-20 h-8 px-2 py-1 border rounded-md hover:bg-gray-100"
+              />
+              <button
+                onclick="resetSession()"
+                class="ml-4 w-15 h-8 px-2 py-1 border rounded-md hover:bg-gray-100"
+              >
+                <span class="mr-1">🔄</span>
+                <!-- Circling arrow -->
+                reset
+              </button>
+            </div>
           </form>
         </div>
 
@@ -86,7 +98,6 @@
       <div class="main-content flex-3 p-4">
         <div class="header-container">
           <h2 class="font-sans text-2xl">Available Players</h2>
-          <button onclick="resetSession()">Reset Session</button>
         </div>
         <button class="bg-blue-500 text-white" onclick="optimizePlayers()">
           Optimize Available Players
