@@ -29,16 +29,6 @@ draftedOverall = []
 
 yourTeam = []
 
-# Filtering data based on conditions
-replacement_rb = individuals[(individuals['pos'] == 'RB') & (
-    individuals['posrank'] == 26)].iloc[:, :ntrees]
-replacement_wr = individuals[(individuals['pos'] == 'WR') & (
-    individuals['posrank'] == 26)].iloc[:, :ntrees]
-replacement_te = individuals[(individuals['pos'] == 'TE') & (
-    individuals['posrank'] == 11)].iloc[:, :ntrees]
-replacement_qb = individuals[(individuals['pos'] == 'QB') & (
-    individuals['posrank'] == 11)].iloc[:, :ntrees]
-
 
 # roundup function
 def roundUp(x, to=numberOfTeams):
@@ -62,6 +52,16 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
 
     individuals = pd.read_csv(individuals_path)
     preds_copy = pd.read_csv(preds_copy_path)
+
+    # Filtering data based on conditions
+    replacement_rb = individuals[(individuals['pos'] == 'RB') & (
+        individuals['posrank'] == (num_teams*2.5 + 1))].iloc[:, :ntrees]
+    replacement_wr = individuals[(individuals['pos'] == 'WR') & (
+        individuals['posrank'] == (num_teams*2.5 + 1))].iloc[:, :ntrees]
+    replacement_te = individuals[(individuals['pos'] == 'TE') & (
+        individuals['posrank'] == (num_teams + 1))].iloc[:, :ntrees]
+    replacement_qb = individuals[(individuals['pos'] == 'QB') & (
+        individuals['posrank'] == (num_teams + 1))].iloc[:, :ntrees]
 
     # Initialize DataFrames and lists
     createdDataframe = pd.DataFrame()
