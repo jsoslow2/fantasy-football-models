@@ -8,7 +8,8 @@ The model is two parts:
 ## website
 
 Visit [fantasyfootballmodels.com](https://fantasyfootballmodels.com)
-all of the website was built primarily through ChatGPT as I don't know webdev - so this is all an experiment. If it works, yay! If not, we'll learn. You gotta be arena maxxing.
+
+The website was built primarily through ChatGPT as I don't know webdev - so this is all an experiment. If it works, yay! If not, we'll learn. You gotta be arena maxxing.
 
 
 ## Installation
