@@ -1,6 +1,7 @@
 # Fantasy Football Draft Optimizer
 
 This is the new github link. Now in python and with a webapp.
+
 The model is two parts:
 1. Basic ML to predict distributions of "points above replacement" for each player
 2. Optimizations that takes in the prediction distribution, who's been picked, and who's likely to be on the board by your next pick, to optimize for the relative value of picking a player now vs waiting for your very specific team in your league with very specific rules.
