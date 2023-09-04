@@ -47,8 +47,8 @@ def draft_optimize(yourTeam, draftedOverall, ppr, num_teams):
         individuals_path = "data/individuals_.5_PPR.csv"
         preds_copy_path = "data/preds_copy_.5_PPR.csv"
     else:
-        individuals_path = "data/individuals.csv"
-        preds_copy_path = "data/preds_copy.csv"
+        individuals_path = "data/individuals_1_PPR.csv"
+        preds_copy_path = "data/preds_copy_1_PPR.csv"
 
     individuals = pd.read_csv(individuals_path)
     preds_copy = pd.read_csv(preds_copy_path)
