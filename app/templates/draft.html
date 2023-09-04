@@ -30,7 +30,7 @@
   </head>
   <body class="bg-gray-100 text-black">
     <div class="container flex h-screen w-full">
-      <div class="side bg-white p-4 shadow-md">
+      <div class="side bg-white p-4 shadow-md flex-2">
         <h3 class="font-sans text-lg">League Settings</h3>
         <div id="settingsContent">
           <form id="settingsForm" action="#">
@@ -70,10 +70,12 @@
                 type="submit"
                 id="submitButton"
                 value="Submit"
+                title="Submit league rules and refresh draft"
                 class="w-20 h-8 px-2 py-1 border rounded-md hover:bg-gray-100"
               />
               <button
                 onclick="resetSession()"
+                title="Resets the session"
                 class="ml-4 w-15 h-8 px-2 py-1 border rounded-md hover:bg-gray-100"
               >
                 <span class="mr-1">🔄</span>
@@ -88,10 +90,11 @@
         <hr class="my-4" />
 
         <!-- Left Side - Drafted Players -->
-        <div class="side drafted-players flex-1 p-4">
-          <h2 class="font-sans text-2xl">Drafted Players</h2>
-          <ul id="draftedPlayersList"></ul>
-        </div>
+        <h2 class="font-sans text-2xl">Drafted Players</h2>
+        <ul
+          id="draftedPlayersList"
+          style="padding-left: 0; margin-left: 0; list-style-type: none"
+        ></ul>
       </div>
 
       <!-- Center - Available Players -->
@@ -103,7 +106,8 @@
           <button
             id="optimizeButton"
             onclick="optimizePlayers()"
-            class="bg-green-300 hover:bg-green-500 text-black font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300"
+            title="Optimizes players based on how valuable they are now vs waiting for your next pick"
+            class="bg-green-300 hover:bg-green-500 text-black font-bold py-3 px-6 rounded-lg shadow-lg"
           >
             <span id="optimizeText">Optimize Available Players</span>
             <span id="optimizeSpinner" class="hidden">
@@ -120,13 +124,28 @@
           <table class="min-w-full bg-white">
             <thead>
               <tr>
-                <th class="py-2 px-4 border-b border-gray-200">Name</th>
-                <th class="py-2 px-4 border-b border-gray-200">Position</th>
-                <th class="py-2 px-4 border-b border-gray-200">Team</th>
-                <th class="py-2 px-4 border-b border-gray-200">
+                <th
+                  class="py-2 px-4 border-b border-gray-200"
+                  title="Player's name"
+                >
+                  Name
+                </th>
+                <th
+                  class="py-2 px-4 border-b border-gray-200"
+                  title="Player's position"
+                >
+                  Position
+                </th>
+                <th
+                  class="py-2 px-4 border-b border-gray-200"
+                  title="Relative Total Point Gains over who you could get at the same position at your next pick"
+                >
                   Value Over Next Round
                 </th>
-                <th class="py-2 px-4 border-b border-gray-200">
+                <th
+                  class="py-2 px-4 border-b border-gray-200"
+                  title="Total points gained above a replacement level position player throughout the season "
+                >
                   Total Point Gains
                 </th>
                 <th class="py-2 px-4 border-b border-gray-200">Actions</th>
@@ -145,9 +164,6 @@
                   {{ player.pos }}
                 </td>
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
-                  {{ player.team }}
-                </td>
-                <td class="py-2 px-4 border-b border-gray-200 text-left">
                   {{ player.valueOverNextRound }}
                 </td>
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
@@ -156,6 +172,7 @@
                 <td class="py-2 px-4 border-b border-gray-200 text-left">
                   <button
                     onclick="selectPlayer('{{ player.name }}')"
+                    title="Player was drafted"
                     class="text-gray-700 bg-gray-100 py-1 px-2 rounded hover:bg-gray-200"
                   >
                     + Selected
@@ -196,9 +213,13 @@
         let item = document.createElement("li");
         item.id = "drafted-" + name.replace(/\s+/g, "-"); // Setting an ID for removal later
         item.innerHTML = `
-  ${draftCounter}. ${name} 
-  <button class="add-to-team bg-green-100 hover:bg-green-300 text-green-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='addToYourTeam("${name}")'>+</button> 
-  <button class="revert bg-transparent hover:bg-red-300 border border-grey-200 text-red-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='revertPlayer("${name}")'>x</button>
+  <div class="flex justify-between items-center">
+    <span>${draftCounter}. ${name}</span>
+    <div>
+      <button title="Add to Your Team" class="add-to-team bg-green-100 hover:bg-green-300 text-green-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='addToYourTeam("${name}")'>+</button> 
+      <button title="Player was not selected" class="revert bg-transparent hover:bg-red-300 border border-grey-200 text-red-700 rounded-full h-6 w-6 inline-flex items-center justify-center text-sm" onclick='revertPlayer("${name}")'>x</button>
+    </div>
+  </div>
 `;
 
         // Insert the new item at the beginning of the list
@@ -248,18 +269,15 @@
               );
 
               // Add player data to the row
-              [
-                "name",
-                "pos",
-                "team",
-                "valueOverNextRound",
-                "total_pt_gains",
-              ].forEach((key) => {
-                let cell = document.createElement("td");
-                cell.textContent = player[key];
-                cell.className = "py-2 px-4 border-b border-gray-200 text-left";
-                row.appendChild(cell);
-              });
+              ["name", "pos", "valueOverNextRound", "total_pt_gains"].forEach(
+                (key) => {
+                  let cell = document.createElement("td");
+                  cell.textContent = player[key];
+                  cell.className =
+                    "py-2 px-4 border-b border-gray-200 text-left";
+                  row.appendChild(cell);
+                }
+              );
 
               // Add the "Select" button
               let cell = document.createElement("td");
